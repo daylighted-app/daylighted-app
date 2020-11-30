@@ -1,0 +1,16 @@
+{
+  "name": "@daylighted-app/data",
+  "description": "The shared data layer across clients or services",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "rimraf dist; tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "mobx": "^6.1.5",
+    "mobx-state-tree": "^5.0.1",
+    "rxdb": "^9.12.1"
+  }
+}

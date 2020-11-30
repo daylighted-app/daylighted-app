@@ -1,0 +1,27 @@
+{
+  "common": {
+    "ok": "确定",
+    "cancel": "取消",
+    "back": "返回"
+  },
+  "errors": {
+    "invalidEmail": "邮箱地址不合法"
+  },
+  "welcomeScreen": {
+    "poweredBy": "POWERED BY IGNITE",
+    "readyForLaunch": "应用已准备完毕",
+    "continue": "继续"
+  },
+  "demoScreen": {
+    "howTo": "哈哈哈",
+    "title": "What’s In This Stack?",
+    "tagLine": "Congratulations, you’ve got a very advanced React Native app template here.  Take advantage of this boilerplate!",
+    "reactotron": "Demo Reactotron",
+    "androidReactotronHint": "If this doesn't work, ensure the Reactotron desktop app is running, run adb reverse tcp:9090 tcp:9090 from your terminal, and reload the app.",
+    "iosReactotronHint": "If this doesn't work, ensure the Reactotron desktop app is running and reload app."
+  },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  }
+}

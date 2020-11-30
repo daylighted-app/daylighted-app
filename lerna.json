@@ -1,0 +1,18 @@
+{
+  "useWorkspaces": true,
+  "version": "independent",
+  "npmClient": "yarn",
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "*.md"
+      ],
+      "message": "feat: version-bump"
+    },
+    "bootstrap": {
+      "npmClientArgs": [
+        "--no-lockfile"
+      ]
+    }
+  }
+}

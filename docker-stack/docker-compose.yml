@@ -1,0 +1,88 @@
+version: "3.6"
+services:
+  postgres:
+    image: postgres:13
+    container_name: pg
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 15432:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pga
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 10080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.3
+    container_name: hsr-gql
+    ports:
+      - 18080:8080
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@pg:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      ## uncomment next line to set an admin secret
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+  supertokens:
+    image: supertokens/supertokens-postgresql:3.0
+    container_name: supg
+    ports:
+      - 13567:3567
+    depends_on:
+      - postgres
+    restart: always
+    volumes:
+      - ./supglogs:${BASE_LOG_PATH}
+    environment:
+      # https://supertokens.io/docs/community/2.5.X/configuration/core#optional-config-values
+      POSTGRESQL_USER: ${POSTGRESQL_USER}
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
+      # POSTGRESQL_CONNECTION_POOL_SIZE: ${POSTGRESQL_CONNECTION_POOL_SIZE}
+      POSTGRESQL_HOST: ${POSTGRESQL_HOST}
+      POSTGRESQL_PORT: ${POSTGRESQL_PORT}
+      # POSTGRESQL_DATABASE_NAME: ${POSTGRESQL_DATABASE_NAME}
+      # POSTGRESQL_KEY_VALUE_TABLE_NAME: ${POSTGRESQL_KEY_VALUE_TABLE_NAME}
+      # POSTGRESQL_SESSION_INFO_TABLE_NAME: ${POSTGRESQL_SESSION_INFO_TABLE_NAME}
+      # POSTGRESQL_EMAILPASSWORD_USERS_TABLE_NAME: ${POSTGRESQL_EMAILPASSWORD_USERS_TABLE_NAME}
+      # POSTGRESQL_EMAILPASSWORD_PSWD_RESET_TOKENS_TABLE_NAME: ${POSTGRESQL_EMAILPASSWORD_PSWD_RESET_TOKENS_TABLE_NAME}
+      # API_KEYS: ${API_KEYS}
+      # SUPERTOKENS_HOST: ${SUPERTOKENS_HOST}
+      # SUPERTOKENS_PORT: ${SUPERTOKENS_PORT}
+      # ACCESS_TOKEN_VALIDITY: ${ACCESS_TOKEN_VALIDITY}
+      # ACCESS_TOKEN_BLACKLISTING: ${ACCESS_TOKEN_BLACKLISTING}
+      # ACCESS_TOKEN_SIGNING_KEY_DYNAMIC: ${ACCESS_TOKEN_SIGNING_KEY_DYNAMIC}
+      # ACCESS_TOKEN_SIGNING_KEY_UPDATE_INTERVAL: ${ACCESS_TOKEN_SIGNING_KEY_UPDATE_INTERVAL}
+      # ENABLE_ANTI_CSRF: ${ENABLE_ANTI_CSRF}
+      # REFRESH_TOKEN_VALIDITY: ${REFRESH_TOKEN_VALIDITY}
+      INFO_LOG_PATH: ${INFO_LOG_PATH}
+      ERROR_LOG_PATH: ${ERROR_LOG_PATH}
+      # MAX_SERVER_POOL_SIZE: ${MAX_SERVER_POOL_SIZE}
+      # DISABLE_TELEMETRY: ${DISABLE_TELEMETRY}
+  # caddy:
+  #   image: caddy/caddy
+      # container_name: caddy
+  #   depends_on:
+  #     - "graphql-engine"
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile
+  #     - caddy_certs:/root/.caddy
+volumes:
+  db_data:
