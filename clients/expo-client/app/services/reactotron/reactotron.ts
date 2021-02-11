@@ -1,11 +1,11 @@
 import Tron from "reactotron-react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { RootStore } from "@daylighted-app/data/mobx-store"
+import { MobxRootState } from "@daylighted-app/data/dist/mst"
 import { onSnapshot } from "mobx-state-tree"
 import { ReactotronConfig, DEFAULT_REACTOTRON_CONFIG } from "./reactotron-config"
 import { mst } from "reactotron-mst"
-import { clear } from "../../utils/storage"
 import { RootNavigation } from "../../navigation"
+import { asyncStorageProxy } from "../../data/async-store"
 
 // Teach TypeScript about the bad things we want to do.
 declare global {
@@ -84,7 +84,7 @@ export class Reactotron {
    */
   setRootStore(rootStore: any, initialData: any) {
     if (__DEV__) {
-      rootStore = rootStore as RootStore // typescript hack
+      rootStore = rootStore as MobxRootState // typescript hack
       this.rootStore = rootStore
 
       const { initial, snapshots } = this.config.state
@@ -145,7 +145,7 @@ export class Reactotron {
         command: "resetStore",
         handler: () => {
           console.tron.log("resetting store")
-          clear()
+          asyncStorageProxy.destroy()
         },
       })
 

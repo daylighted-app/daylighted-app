@@ -1,0 +1,1 @@
+perserve per-collection schema and related type defs

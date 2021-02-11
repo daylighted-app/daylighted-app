@@ -1,5 +1,8 @@
 .DS_Store
 
+# yarn cache
+.yarn/cache
+
 # compiled output
 dist/
 dist_electron/

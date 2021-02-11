@@ -1,0 +1,6 @@
+[submodule "submodules/da-site"]
+	path = submodules/da-site
+	url = https://github.com/daylighted-app/da-site
+[submodule "submodules/da-autht-service"]
+	path = submodules/da-autht-service
+	url = https://github.com/daylighted-app/da-autht-service

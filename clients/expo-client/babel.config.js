@@ -12,7 +12,7 @@ module.exports = {
     ],
     ["@babel/plugin-proposal-optional-catch-binding"],
   ],
-};
+}
 
 // module.exports = function(api) {
 //   api.cache(true);

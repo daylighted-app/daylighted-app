@@ -1,74 +1,58 @@
-/**
- * Welcome to the main entry point of the app. In this file, we'll
- * be kicking off our app.
- *
- * Most of this file is boilerplate and you shouldn't need to modify
- * it very often. But take some time to look through and understand
- * what is going on here.
- *
- * The app navigation resides in ./app/navigation, so head over there
- * if you're interested in adding screens and navigators.
- */
-import "./i18n";
-import "./utils/ignore-warnings";
-import "./utils/base64-polyfill.js";
-import React, { useState, useEffect, useRef } from "react";
-import { NavigationContainerRef } from "@react-navigation/native";
-import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
-import { initFonts } from "./theme/fonts"; // expo
-import * as storage from "./utils/storage";
-import {
-  useBackButtonHandler,
-  RootNavigator,
-  canExit,
-  setRootNavigation,
-  useNavigationPersistence,
-} from "./navigation";
-import { RootStore, RootStoreProvider, setupRootStore } from "@daylighted-app/data/mobx-store";
-import { ToggleStorybook } from "../storybook/toggle-storybook";
-
+import { MobxRootState, MobxRootStateProvider } from "@daylighted-app/data/dist/mst"
+import { NavigationContainerRef } from "@react-navigation/native"
+import React, { useEffect, useRef, useState } from "react"
+import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
-import { enableScreens } from "react-native-screens";
-enableScreens();
+import { enableScreens } from "react-native-screens"
+import { ToggleStorybook } from "../storybook/toggle-storybook"
+import "./i18n"
+import {
+  canExit, RootNavigator,
+  setRootNavigation, useBackButtonHandler,
+  useNavigationPersistence
+} from "./navigation"
+import { asyncStorageProxy } from "./data/async-store"
+import { setupRootState } from "./data/setup-root-state"
+import { initFonts } from "./theme/fonts" // expo
+import "./utils/base64-polyfill.js"
+import "./utils/ignore-warnings"
 
-export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE";
+enableScreens()
 
-/**
- * This is the root component of our app.
- */
 function App() {
-  const navigationRef = useRef<NavigationContainerRef>();
-  const [rootStore, setRootStore] = useState<RootStore>(undefined);
+  // navigation
+  const navigationRef = useRef<NavigationContainerRef>()
+  const [rootState, setRootState] = useState<MobxRootState>(undefined)
 
-  setRootNavigation(navigationRef);
-  useBackButtonHandler(navigationRef, canExit);
+  setRootNavigation(navigationRef)
+  useBackButtonHandler(navigationRef, canExit)
   const { initialNavigationState, onNavigationStateChange } = useNavigationPersistence(
-    storage,
-    NAVIGATION_PERSISTENCE_KEY,
-  );
+    asyncStorageProxy,
+    "NAVIGATION_PERSISTENCE_KEY",
+  )
 
-  // Kick off initial async loading actions, like loading fonts and RootStore
+  // Kick off initial async loading actions, like loading fonts and MobxRootState
   useEffect(() => {
-    (async () => {
+    ; (async () => {
       // SplashScreen.preventAutoHideAsync()
-      await initFonts(); // expo
-      await setupRootStore().then(setRootStore);
+      await initFonts()
+      await setupRootState().then(setRootState)
       // SplashScreen.hideAsync()
-    })();
-  }, []);
+    })()
+  }, [])
 
   // Before we show the app, we have to wait for our state to be ready.
   // In the meantime, don't render anything. This will be the background
   // color set in native by rootView's background color. You can replace
   // with your own loading component if you wish.
-  if (!rootStore) return null;
+  if (!rootState) return null
 
   // otherwise, we're ready to render the app
   return (
     <ToggleStorybook>
-      <RootStoreProvider value={rootStore}>
+      <MobxRootStateProvider value={rootState}>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
           <RootNavigator
             ref={navigationRef}
@@ -76,9 +60,9 @@ function App() {
             onStateChange={onNavigationStateChange}
           />
         </SafeAreaProvider>
-      </RootStoreProvider>
+      </MobxRootStateProvider>
     </ToggleStorybook>
-  );
+  )
 }
 
-export default App;
+export default App

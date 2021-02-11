@@ -55,11 +55,6 @@
     "react/no-unescaped-entities": 0,
     "react/prop-types": "off",
     "space-before-function-paren": 0,
-    "generator-star-spacing": "off",
-    // semicolon
-    "semi": "off",
-    "@typescript-eslint/semi": ["error", "always"],
-    "semi-spacing": ["error", { "before": false, "after": true }],
-    "semi-style": ["error", "last"]
+    "generator-star-spacing": "off"
   }
 }

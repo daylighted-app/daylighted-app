@@ -4,7 +4,7 @@
  * - `PRIVATE` for creator only
  * - `SHARED` for public access
  * - `ASSIGNED` for assigned users
- * - `GROUP` for group access,
+ * - `GROUP` for group access
  *
  * @export
  * @enum {string}

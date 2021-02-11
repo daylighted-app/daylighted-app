@@ -1,1 +1,0 @@
-A Daylight record means an event

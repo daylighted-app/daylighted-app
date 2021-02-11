@@ -1,0 +1,1 @@
+Holy sh*t, why does modeling a multi collection rxdb with gql replication so painful! Do I have to write query builders for every single collection? Am I doing someting wrong?

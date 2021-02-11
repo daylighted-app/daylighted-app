@@ -1,0 +1,1 @@
+stupid implementation, preserve and maintain per-collection push/pull query builders for gql replications

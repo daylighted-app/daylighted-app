@@ -1,13 +1,12 @@
-import React from "react"
-import { Image, ImageStyle, Platform, TextStyle, View, ViewStyle } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { BulletItem, Button, Header, Text, Screen, Wallpaper } from "../../components"
-import { color, spacing } from "../../theme"
-import { Api } from "../../services/api"
-import { save } from "../../utils/storage"
+import React from "react"
+import { Image, ImageStyle, Platform, TextStyle, View, ViewStyle } from "react-native"
 import styled from "styled-components/native"
-import { TextInput } from "react-native-gesture-handler"
+import { BulletItem, Button, Header, Screen, Text, Wallpaper } from "../../components"
+import { Api } from "../../services/api"
+import { asyncStorageProxy } from "../../data/async-store"
+import { color, spacing } from "../../theme"
 export const logoIgnite = require("./logo-ignite.png")
 export const heart = require("./heart.png")
 
@@ -120,7 +119,7 @@ export const DemoScreen = observer(function DemoScreen() {
       demo.setup()
       demo.getUser("1")
       // Let's do some async storage stuff
-      await save("Cool Name", "Boaty McBoatface")
+      await asyncStorageProxy.saveString("Cool Name", "Boaty McBoatface")
     },
     [],
   )

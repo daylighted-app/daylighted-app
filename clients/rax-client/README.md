@@ -1,1 +1,4 @@
-Save this for later.
+Save for future.
+
+- WeChat MiniProgram
+- Web App

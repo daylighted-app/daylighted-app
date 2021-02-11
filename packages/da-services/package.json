@@ -1,6 +1,0 @@
-{
-  "name": "@daylighted-app/services",
-  "description": "The Auth provider and the remote shemes for Hasura",
-  "private": true,
-  "version": "0.0.1"
-}
